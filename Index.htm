@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seni Rupa di Sekitar Kita - Fase E Kelas X</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap" rel="stylesheet">
+    <!-- Chart.js for Quiz Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            900: '#0f172a',
+                        },
+                        art: {
+                            accent: '#f59e0b',
+                            rose: '#f43f5e',
+                            emerald: '#10b981',
+                            purple: '#8b5cf6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- Header/Navbar -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('hero')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-art-purple flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                    <i class="fa-solid font-bold fa-palette text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-slate-900">ArkaSeni <span class="text-xs px-2 py-0.5 rounded-full bg-brand-100 text-brand-600 font-semibold ml-1">Fase E</span></h1>
+                    <p class="text-xs text-slate-500">Seni Rupa di Sekitar Kita</p>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-1 bg-slate-100/80 p-1.5 rounded-full border border-slate-200">
+                <button onclick="navigateTo('hero')" id="nav-hero" class="nav-btn px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-house mr-1.5"></i>Beranda
+                </button>
+                <button onclick="navigateTo('materi')" id="nav-materi" class="nav-btn px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-book-open mr-1.5"></i>1. Eksplorasi Konsep
+                </button>
+                <button onclick="navigateTo('simulasi')" id="nav-simulasi" class="nav-btn px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-magnifying-glass-location mr-1.5"></i>2. Detektor Sekitar
+                </button>
+                <button onclick="navigateTo('kuis')" id="nav-kuis" class="nav-btn px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-gamepad mr-1.5"></i>3. Tantangan Kuis
+                </button>
+                <button onclick="navigateTo('refleksi')" id="nav-refleksi" class="nav-btn px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-pen-nib mr-1.5"></i>4. Jurnal Refleksi
+                </button>
+            </nav>
+
+            <div class="hidden lg:flex items-center space-x-2">
+                <div class="text-right">
+                    <p class="text-xs font-bold text-slate-800" id="teacher-status">Guru Pendamping</p>
+                    <p class="text-[10px] text-emerald-600 font-medium flex items-center justify-end"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1 animate-pulse"></span> Mode Interaktif</p>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+                <i class="fa-solid fa-bars text-lg" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 py-3 space-y-2">
+            <button onclick="navigateTo('hero')" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Beranda</button>
+            <button onclick="navigateTo('materi')" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">1. Eksplorasi Konsep</button>
+            <button onclick="navigateTo('simulasi')" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">2. Detektor Seni Sekitar</button>
+            <button onclick="navigateTo('kuis')" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">3. Kuis Interaktif</button>
+            <button onclick="navigateTo('refleksi')" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">4. Jurnal Refleksi Deep Learning</button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- SECTION 0: HERO & CP / TP OVERVIEW -->
+        <section id="sec-hero" class="space-y-8 transition-all duration-300">
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl bg-gradient-to-r from-slate-900 via-brand-900 to-indigo-950 text-white p-8 sm:p-12 overflow-hidden shadow-2xl">
+                <div class="absolute -right-10 -bottom-10 w-96 h-96 rounded-full bg-brand-500/20 blur-3xl pointer-events-none"></div>
+                <div class="absolute right-1/3 -top-10 w-64 h-64 rounded-full bg-art-purple/20 blur-3xl pointer-events-none"></div>
+                
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/10 backdrop-blur-md text-brand-100 border border-white/10 mb-4">
+                        <i class="fa-solid fa-sparkles text-art-accent mr-2"></i> Pembelajaran Mendalam (Deep Learning)
+                    </span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4">
+                        Menemukan Jejak <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-rose-300 to-indigo-200">Seni Rupa</span> dalam Keseharian.
+                    </h2>
+                    <p class="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed">
+                        Seni rupa bukan sekadar lukisan di museum. Ia bernapas di cangkir kopimu, pakaian yang kamu kenakan, arsitektur sekolahmu, hingga desain antarmuka ponselmu.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="navigateTo('materi')" class="px-6 py-3.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-semibold shadow-lg shadow-brand-500/30 transition-all flex items-center transform hover:-translate-y-0.5">
+                            Mulai Eksplorasi <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                        </button>
+                        <button onclick="scrollToCPTP()" class="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold backdrop-blur-md border border-white/10 transition">
+                            Tujuan Pembelajaran
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deep Learning Pillars Card -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">1. Mindful Learning</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Melatih kepekaan indrawi siswa untuk menyadari bahwa segala objek visual ciptaan manusia memiliki bentuk, fungsi, dan nilai estetis.
+                    </p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">2. Meaningful Learning</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Menghubungkan konsep seni rupa dengan keberadaannya dalam sejarah manusia, pemenuhan kebutuhan hidup, dan ekspresi emosi jiwa.
+                    </p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 text-xl">
+                        <i class="fa-solid fa-face-smile"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">3. Joyful Experiential</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Pengalaman belajar yang menyenangkan melalui simulasi deteksi visual interaktif, studi kasus bermakna, dan evaluasi berbasis apresiasi.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CP & TP Info Box -->
+            <div id="cptp-section" class="p-6 sm:p-8 rounded-2xl bg-slate-100 border border-slate-200">
+                <div class="flex items-center space-x-3 mb-4">
+                    <span class="p-2 rounded-lg bg-slate-900 text-white"><i class="fa-solid fa-graduation-cap"></i></span>
+                    <h3 class="font-bold text-slate-900 text-lg">Capaian & Tujuan Pembelajaran (Kurikulum Merdeka)</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 text-sm">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200">
+                        <p class="font-bold text-brand-600 uppercase text-xs tracking-wider mb-1">Capaian Pembelajaran (CP) - Mengalami & Mengamati</p>
+                        <p class="text-slate-700">Peserta didik mampu mengamati, merekam, dan menuangkan pengalaman visualnya secara rinci terhadap elemen-elemen rupa dan prinsip desain dalam kehidupan sehari-hari.</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200">
+                        <p class="font-bold text-art-rose uppercase text-xs tracking-wider mb-1">Tujuan Pembelajaran Utama (TP)</p>
+                        <ul class="list-disc list-inside text-slate-700 space-y-1">
+                            <li>Mendefinisikan pengertian seni rupa secara komprehensif.</li>
+                            <li>Menganalisis eksistensi dan peran seni rupa dalam kehidupan manusia (praktis, ekspresif, dan simbolis).</li>
+                            <li>Mengidentifikasi karya seni rupa murni & terapan di lingkungan sekitar.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: EKSPLORASI KONSEP (MATERI INTERAKTIF) -->
+        <section id="sec-materi" class="hidden space-y-8">
+            <div class="border-b border-slate-200 pb-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold text-brand-600 uppercase tracking-widest">Bagian 01</span>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900">Eksplorasi Konsep & Eksistensi Seni Rupa</h2>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="switchTabMateri('definisi')" id="tab-definisi" class="materi-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white transition shadow-sm">
+                        Definisi Seni Rupa
+                    </button>
+                    <button onclick="switchTabMateri('fungsi')" id="tab-fungsi" class="materi-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 transition border border-slate-200">
+                        Eksistensi & Fungsi
+                    </button>
+                    <button onclick="switchTabMateri('klasifikasi')" id="tab-klasifikasi" class="materi-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 transition border border-slate-200">
+                        Murni vs Terapan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Content 1: Definisi -->
+            <div id="materi-definisi" class="materi-content grid lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-md">
+                            Pertanyaan Pemantik
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 font-serif">"Jika dunia ini tanpa seni rupa, seperti apa bentuk kehidupan kita?"</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Bayangkan dunia tanpa warna, tanpa tekstur, tanpa desain pakaian, arsitektur gedung yang polos monoton, hingga aplikasi ponsel tanpa antarmuka visual. Seni rupa bukan sekadar pelengkap, melainkan **bahasa visual manusia**.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h4 class="font-bold text-slate-900 text-base flex items-center">
+                            <i class="fa-solid fa-quote-left text-brand-500 mr-2"></i> Tiga Sudut Pandang Definisi Seni Rupa
+                        </h4>
+                        
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer hover:bg-brand-50 transition" onclick="showDefinisiDetail(1)">
+                                <h5 class="font-bold text-sm text-slate-800 flex justify-between">
+                                    <span>1. Secara Etimologis & Bahasa</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                                </h5>
+                                <p class="text-xs text-slate-600 mt-1">Berasal dari kata "Sani" (Sanskerta: pemujaan/persembahan) dan "Visual Art".</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer hover:bg-brand-50 transition" onclick="showDefinisiDetail(2)">
+                                <h5 class="font-bold text-sm text-slate-800 flex justify-between">
+                                    <span>2. Secara Konseptual (Medium Visual)</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                                </h5>
+                                <p class="text-xs text-slate-600 mt-1">Cabang seni yang mengekspresikan gagasan melalui rupa (titik, garis, bidang, warna, tekstur, ruang).</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 cursor-pointer hover:bg-brand-50 transition" onclick="showDefinisiDetail(3)">
+                                <h5 class="font-bold text-sm text-slate-800 flex justify-between">
+                                    <span>3. Pandangan Ahli (Ki Hajar Dewantara)</span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                                </h5>
+                                <p class="text-xs text-slate-600 mt-1">Seni sebagai hasil keindahan yang dapat menggerakkan perasaan indah orang yang melihatnya.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Interactive Element Canvas -->
+                <div class="lg:col-span-5 bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-6 rounded-2xl shadow-xl flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Laboratorium Visual</span>
+                        <h4 class="font-bold text-lg mt-1 mb-3">Elemen Dasar Pengubah Wujud Seni Rupa</h4>
+                        <p class="text-xs text-slate-300 mb-6">Ubah parameter di bawah untuk melihat bagaimana titik sederhana berkembang menjadi karya visual bermakna:</p>
+
+                        <!-- Interactive Controls -->
+                        <div class="space-y-4 text-xs">
+                            <div>
+                                <label class="flex justify-between text-slate-300 mb-1">
+                                    <span>Kerapatan Garis & Bentuk</span>
+                                    <span id="line-val">5</span>
+                                </label>
+                                <input type="range" id="slider-density" min="1" max="10" value="5" oninput="updateArtCanvas()" class="w-full accent-brand-500 bg-slate-800">
+                            </div>
+                            <div>
+                                <label class="flex justify-between text-slate-300 mb-1">
+                                    <span>Skema Warna Estetis</span>
+                                    <span id="color-val">Harmoni Hangat</span>
+                                </label>
+                                <select id="select-color" onchange="updateArtCanvas()" class="w-full bg-slate-800 text-white rounded-lg p-2 border border-slate-700">
+                                    <option value="warm">Warm Palette (Hangat)</option>
+                                    <option value="cool">Cool Palette (Sejuk)</option>
+                                    <option value="monochrome">Monokromatik</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Preview -->
+                        <div class="mt-6 border border-slate-700/60 rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center p-2 h-48 relative">
+                            <canvas id="materiCanvas" width="300" height="180" class="w-full h-full object-contain"></canvas>
+                        </div>
+                    </div>
+
+                    <p class="text-[11px] text-slate-400 italic text-center mt-4">
+                        "Setiap karya besar seni rupa selalu dimulai dari sebuah titik sederhana."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab Content 2: Fungsi & Eksistensi -->
+            <div id="materi-fungsi" class="materi-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-900 mb-2 font-serif">Mengapa Seni Rupa Selalu Ada Dalam Peradaban Manusia?</h3>
+                    <p class="text-slate-600 text-sm">Sejak zaman prasejarah (lukisan gua Maros/Altamira) hingga era digital AI, manusia selalu merekam keberadaannya melalui karya rupa.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 hover:border-brand-500 transition group">
+                        <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-600 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-shirt"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-2">1. Kebutuhan Praktis & Fungsional</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            Seni rupa hadir untuk mempermudah dan memperindah alat kebutuhan fisik manusia. 
+                        </p>
+                        <span class="inline-block text-[11px] font-semibold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-md">Contoh: Mangkuk keramik, pakaian batik, furnitur kursi ergonomis.</span>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 hover:border-art-rose transition group">
+                        <div class="w-12 h-12 rounded-xl bg-rose-100 text-art-rose flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-2">2. Ekspresi Emosional & Jiwa</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            Wadah katarsis emosi, luapan ide, gagasan, dan respon seniman terhadap fenomena sosial di sekitarnya.
+                        </p>
+                        <span class="inline-block text-[11px] font-semibold text-art-rose bg-rose-50 px-2.5 py-1 rounded-md">Contoh: Lukisan ekspresionisme Affandi, seni patung katedral.</span>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 hover:border-art-purple transition group">
+                        <div class="w-12 h-12 rounded-xl bg-purple-100 text-art-purple flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-base mb-2">3. Komunikasi & Religi/Ritual</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            Media penyampaian pesan sosial, propaganda, identitas budaya, hingga sarana penghubung ritual keagamaan.
+                        </p>
+                        <span class="inline-block text-[11px] font-semibold text-art-purple bg-purple-50 px-2.5 py-1 rounded-md">Contoh: Poster kampanye lingkungan, ukiran Toraja, arsitektur masjid.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content 3: Murni vs Terapan -->
+            <div id="materi-klasifikasi" class="materi-content hidden space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Fine Art -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-slate-200 hover:border-brand-500 transition">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-brand-100 text-brand-700 font-bold text-xs rounded-full">Fine Art</span>
+                            <i class="fa-solid fa-palette text-2xl text-brand-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Seni Rupa Murni</h3>
+                        <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                            Karya seni yang diciptakan khusus untuk memenuhi kebutuhan estetis, kepuasan batin, dan ekspresi gagasan seniman tanpa mengedepankan fungsi praktis.
+                        </p>
+                        <div class="space-y-2">
+                            <div class="p-2.5 rounded-lg bg-slate-50 text-xs font-semibold text-slate-700 flex items-center justify-between">
+                                <span><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Lukisan Karta (Murni 2D)</span>
+                                <span class="text-slate-400 font-normal">Nikmati Estetikanya</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 text-xs font-semibold text-slate-700 flex items-center justify-between">
+                                <span><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Patung Monumen (Murni 3D)</span>
+                                <span class="text-slate-400 font-normal">Pesan Simbolis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Applied Art -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-slate-200 hover:border-art-accent transition">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 bg-amber-100 text-amber-800 font-bold text-xs rounded-full">Applied Art</span>
+                            <i class="fa-solid fa-couch text-2xl text-amber-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Seni Rupa Terapan</h3>
+                        <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                            Karya seni rupa yang dirancang dengan memprioritaskan fungsi guna (utilitas) dalam kehidupan sehari-hari tanpa mengabaikan nilai keindahannya.
+                        </p>
+                        <div class="space-y-2">
+                            <div class="p-2.5 rounded-lg bg-slate-50 text-xs font-semibold text-slate-700 flex items-center justify-between">
+                                <span><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Desain Komunikasi Visual (DKV)</span>
+                                <span class="text-slate-400 font-normal">Fungsi Informasi</span>
+                            </div>
+                            <div class="p-2.5 rounded-lg bg-slate-50 text-xs font-semibold text-slate-700 flex items-center justify-between">
+                                <span><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Kriya Tekstil & Keramik</span>
+                                <span class="text-slate-400 font-normal">Fungsi Guna</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: SIMULASI DETEKTOR SENI RUPA SEKITAR -->
+        <section id="sec-simulasi" class="hidden space-y-6">
+            <div class="border-b border-slate-200 pb-5">
+                <span class="text-xs font-bold text-art-purple uppercase tracking-widest">Bagian 02 - Experiential Learning</span>
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900">Simulasi: Detektor Seni Rupa di Lingkungan Sekitar</h2>
+                <p class="text-xs text-slate-500 mt-1">Pilih lokasi ruangan di bawah ini, lalu klik ikon pin interaktif untuk mengidentifikasi keberadaan seni rupa di sekitar kita!</p>
+            </div>
+
+            <!-- Room Selector Tabs -->
+            <div class="flex flex-wrap gap-2">
+                <button onclick="switchRoom('kelas')" id="room-kelas" class="room-btn px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white transition shadow-sm">
+                    <i class="fa-solid fa-school mr-1.5"></i>Ruang Kelas
+                </button>
+                <button onclick="switchRoom('kamar')" id="room-kamar" class="room-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
+                    <i class="fa-solid fa-bed mr-1.5"></i>Kamar Tidur
+                </button>
+                <button onclick="switchRoom('kota')" id="room-kota" class="room-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 transition">
+                    <i class="fa-solid fa-city mr-1.5"></i>Taman Kota
+                </button>
+            </div>
+
+            <!-- Interactive Room Container -->
+            <div class="grid lg:grid-cols-12 gap-6 items-start">
+                <!-- Visual Map Display -->
+                <div class="lg:col-span-8 bg-slate-900 rounded-2xl overflow-hidden relative border border-slate-700 shadow-xl min-h-[380px] flex items-center justify-center p-4">
+                    <div id="room-canvas-area" class="relative w-full max-w-xl aspect-video rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 flex items-center justify-center overflow-hidden">
+                        
+                        <!-- Dynamic Hotspots inside Classroom -->
+                        <div id="hotspots-container" class="absolute inset-0 w-full h-full">
+                            <!-- Hotspots will be rendered dynamically via JS -->
+                        </div>
+
+                        <!-- Room Background Placeholder Text -->
+                        <div class="text-center text-slate-500 pointer-events-none">
+                            <i class="fa-solid fa-eye text-4xl mb-2 text-slate-600"></i>
+                            <p class="text-xs" id="room-bg-label">Eksplorasi Ruang Kelas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Object Detail Information Card -->
+                <div class="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm min-h-[380px] flex flex-col justify-between">
+                    <div id="detector-info">
+                        <div class="inline-block px-2.5 py-1 bg-brand-100 text-brand-700 text-[10px] font-bold rounded-md mb-2">
+                            Petunjuk Eksplorasi
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Klik Hotspot di Gambar</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            Sentuh atau klik tombol lingkaran interaktif pada tampilan untuk menganalisis klasifikasi seni rupa, jenis, serta fungsinya dalam objek tersebut.
+                        </p>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+                        <p class="font-bold text-slate-800 mb-1"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> Catatan Pembelajaran:</p>
+                        <p class="text-slate-600">Seni rupa terapan seringkali kita anggap sekadar benda biasa, padahal telah melewati proses perancangan estetika (desain/kriya).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: TANTANGAN KUIS INTERAKTIF -->
+        <section id="sec-kuis" class="hidden space-y-6">
+            <div class="border-b border-slate-200 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <span class="text-xs font-bold text-art-rose uppercase tracking-widest">Bagian 03 - Evaluasi Interaktif</span>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900">Uji Pemahaman: Tantangan Seni Sekitar</h2>
+                </div>
+                <div class="flex items-center space-x-3 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
+                    <span class="text-xs text-slate-500">Skor Kamu:</span>
+                    <span id="quiz-score-display" class="font-extrabold text-brand-600 text-lg">0</span>
+                </div>
+            </div>
+
+            <!-- Quiz Card Container -->
+            <div class="max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-md">
+                <div id="quiz-body">
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-slate-100 h-2 rounded-full mb-6 overflow-hidden">
+                        <div id="quiz-progress" class="bg-brand-500 h-full w-1/5 transition-all duration-300"></div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-slate-400 mb-2">
+                        <span id="quiz-step">Soal 1 dari 5</span>
+                        <span id="quiz-category" class="font-semibold text-brand-600 bg-brand-50 px-2 py-0.5 rounded">Klasifikasi Seni</span>
+                    </div>
+
+                    <h3 id="quiz-question" class="text-base sm:text-lg font-bold text-slate-900 mb-6">
+                        Loading pertanyaan...
+                    </h3>
+
+                    <!-- Answer Options -->
+                    <div id="quiz-options" class="space-y-3">
+                        <!-- Rendered by JS -->
+                    </div>
+
+                    <!-- Feedback Box -->
+                    <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-xl text-xs font-medium leading-relaxed">
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <button id="btn-next-quiz" onclick="nextQuestion()" class="hidden px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition">
+                            Pertanyaan Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Result Screen (Hidden by default) -->
+                <div id="quiz-result" class="hidden text-center space-y-6 py-4">
+                    <div class="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto shadow-inner">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-slate-900">Eksplorasi Selesai!</h3>
+                        <p class="text-slate-500 text-sm mt-1">Kamu telah menyelesaikan tantangan pemahaman seni rupa.</p>
+                    </div>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 inline-block">
+                        <p class="text-xs text-slate-500 uppercase tracking-wider">Skor Akhir Kamu</p>
+                        <p id="final-score-text" class="text-4xl font-extrabold text-brand-600 my-1">100 / 100</p>
+                        <p id="final-eval-text" class="text-xs font-semibold text-emerald-600">Luar biasa! Pemahamanmu sangat tajam.</p>
+                    </div>
+
+                    <div class="flex justify-center space-x-3">
+                        <button onclick="restartQuiz()" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Ulangi Kuis
+                        </button>
+                        <button onclick="navigateTo('refleksi')" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition">
+                            Isi Jurnal Refleksi <i class="fa-solid fa-pen-to-square ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: JURNAL REFLEKSI DEEP LEARNING -->
+        <section id="sec-refleksi" class="hidden space-y-6">
+            <div class="border-b border-slate-200 pb-5">
+                <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Bagian 04 - Reflection & Action</span>
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900">Jurnal Refleksi Pembelajaran Mendalam</h2>
+                <p class="text-xs text-slate-500 mt-1">Tautkan pengetahuan baru dengan kesadaran dirimu sendiri melalui lembar refleksi interaktif ini.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8">
+                <!-- Student Input Form -->
+                <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                    <form id="form-refleksi" onsubmit="handleReflectionSubmit(event)">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Siswa / Kelompok</label>
+                                <input type="text" id="ref-name" required placeholder="Masukkan nama kamu..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">1. Pengalaman Mindful (Apa benda seni rupa di sekitarmu yang baru kamu sadari keindahannya hari ini?)</label>
+                                <textarea id="ref-q1" required rows="3" placeholder="Contoh: Mangkuk keramik buatan lokal di meja makan yang ternyata memiliki tekstur motif ukir indah..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none custom-scrollbar"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">2. Makna Eksistensi (Mengapa keberadaan seni rupa terapan penting dalam kehidupan sehari-hari manusia?)</label>
+                                <textarea id="ref-q2" required rows="3" placeholder="Jelaskan alasan fungsi dan estetikanya..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none custom-scrollbar"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Skala Perasaan Belajar Hari Ini</label>
+                                <div class="flex items-center space-x-4">
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="radio" name="mood" value="😊 Sangat Paham & Senang" checked class="accent-brand-600">
+                                        <span class="text-xs text-slate-700">😊 Sangat Paham & Senang</span>
+                                    </label>
+                                    <label class="flex items-center space-x-1 cursor-pointer">
+                                        <input type="radio" name="mood" value="🤔 Cukup Paham" class="accent-brand-600">
+                                        <span class="text-xs text-slate-700">🤔 Cukup Paham</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="mt-6 w-full py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-md shadow-brand-500/20 transition">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Jurnal Refleksi Saya
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Display submitted responses & Teacher summary -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-6 rounded-2xl shadow-md">
+                        <h4 class="font-bold text-sm text-amber-400 mb-2 flex items-center">
+                            <i class="fa-solid fa-award mr-2"></i> Rangkuman Pembelajaran (Summary)
+                        </h4>
+                        <ul class="text-xs text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                            <li>Seni Rupa hadir dalam bentuk **2 Dimensi & 3 Dimensi**.</li>
+                            <li>Terbagi atas fungsi **Murni (Ekspresi)** dan **Terapan (Guna/Praktis)**.</li>
+                            <li>Keberadaan seni rupa memenuhi kebutuhan fisik, emosional, dan sosial peradaban manusia.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Submitted Entries Preview -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-3">Refleksi Terkirim (Siswa)</h4>
+                        <div id="journal-entries-list" class="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-1">
+                            <p class="text-xs text-slate-400 italic text-center py-4">Belum ada refleksi terkirim hari ini.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-slate-500">
+                Media Pembelajaran Interaktif Seni Rupa Kelas X Fase E &copy; 2026. Dirancang dengan Pendekatan Deep Learning Kurikulum Merdeka.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Interactive Modal Detail -->
+    <div id="materi-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-md w-full rounded-2xl p-6 shadow-2xl relative space-y-4">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-600 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+            <h3 id="modal-title" class="font-bold text-lg text-slate-900">Detail Konsep</h3>
+            <p id="modal-desc" class="text-xs text-slate-600 leading-relaxed">Penjelasan detail...</p>
+            <button onclick="closeModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold rounded-xl text-xs transition">
+                Mengerti
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- NAVIGATION CONTROLLER ---
+        function navigateTo(sectionId) {
+            const sections = ['hero', 'materi', 'simulasi', 'kuis', 'refleksi'];
+            sections.forEach(sec => {
+                const el = document.getElementById(`sec-${sec}`);
+                const navBtn = document.getElementById(`nav-${sec}`);
+                if (el) el.classList.add('hidden');
+                if (navBtn) {
+                    navBtn.classList.remove('bg-brand-600', 'text-white');
+                    navBtn.classList.add('text-slate-600');
+                }
+            });
+
+            const targetSection = document.getElementById(`sec-${sectionId}`);
+            const targetNav = document.getElementById(`nav-${sectionId}`);
+            if (targetSection) targetSection.classList.remove('hidden');
+            if (targetNav) {
+                targetNav.classList.add('bg-brand-600', 'text-white');
+                targetNav.classList.remove('text-slate-600');
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            // Trigger canvas draw if entering materi section
+            if (sectionId === 'materi') {
+                setTimeout(updateArtCanvas, 50);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function scrollToCPTP() {
+            document.getElementById('cptp-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- MATERI TAB SWITCHING & MODALS ---
+        function switchTabMateri(tabName) {
+            const tabs = ['definisi', 'fungsi', 'klasifikasi'];
+            tabs.forEach(t => {
+                document.getElementById(`materi-${t}`).classList.add('hidden');
+                const btn = document.getElementById(`tab-${t}`);
+                btn.classList.remove('bg-brand-600', 'text-white');
+                btn.classList.add('bg-white', 'text-slate-600');
+            });
+
+            document.getElementById(`materi-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.add('bg-brand-600', 'text-white');
+            activeBtn.classList.remove('bg-white', 'text-slate-600');
+        }
+
+        function showDefinisiDetail(type) {
+            const modal = document.getElementById('materi-modal');
+            const title = document.getElementById('modal-title');
+            const desc = document.getElementById('modal-desc');
+
+            if (type === 1) {
+                title.innerText = "Etimologi Seni Rupa";
+                desc.innerText = "Kata 'Seni' berkorelasi dengan kata 'Sani' dalam bahasa Sanskerta yang berarti pemujaan, pelayanan, dan persembahan. Sementara 'Rupa' mengacu pada wujud visual yang dapat ditangkap oleh indra penglihatan dan diraba oleh indra peraba.";
+            } else if (type === 2) {
+                title.innerText = "Seni Rupa Sebagai Medium Visual";
+                desc.innerText = "Seni Rupa adalah cabang seni yang membentuk karya seni dengan media yang bisa ditangkap mata dan dirasakan dengan rabaan. Kesan diciptakan dengan mengolah konsep garis, bidang, bentuk, volume, warna, tekstur, dan pencahayaan.";
+            } else if (type === 3) {
+                title.innerText = "Pandangan Ki Hajar Dewantara";
+                desc.innerText = "Ki Hajar Dewantara mendefinisikan seni sebagai segala perbuatan manusia yang timbul dari perasaan dan sifat indah, sehingga menggerakkan jiwa perasaan manusia. Dalam seni rupa, keindahan tersebut diwujudkan secara visual.";
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('materi-modal').classList.add('hidden');
+        }
+
+        // --- CANVAS ART LAB (MATERI 1) ---
+        function updateArtCanvas() {
+            const canvas = document.getElementById('materiCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const density = document.getElementById('slider-density').value;
+            const colorScheme = document.getElementById('select-color').value;
+
+            document.getElementById('line-val').innerText = density;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Palette options
+            let colors = ['#f59e0b', '#f43f5e', '#fbbf24'];
+            if (colorScheme === 'cool') colors = ['#3b82f6', '#06b6d4', '#8b5cf6'];
+            if (colorScheme === 'monochrome') colors = ['#f8fafc', '#94a3b8', '#475569'];
+
+            // Draw generative line art based on density
+            const step = canvas.width / (parseInt(density) + 2);
+            for (let i = 1; i <= density; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * step, 10);
+                ctx.bezierCurveTo(
+                    i * step + 30, canvas.height / 2,
+                    i * step - 30, canvas.height / 2,
+                    i * step, canvas.height - 10
+                );
+                ctx.strokeStyle = colors[i % colors.length];
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Draw artistic shape nodes
+                ctx.beginPath();
+                ctx.arc(i * step, canvas.height / 2, 6, 0, Math.PI * 2);
+                ctx.fillStyle = colors[(i + 1) % colors.length];
+                ctx.fill();
+            }
+        }
+
+        // --- SIMULATOR ROOM DETECTOR (SECTION 2) ---
+        const roomData = {
+            kelas: {
+                label: "Eksplorasi Ruang Kelas",
+                hotspots: [
+                    { id: 1, top: '25%', left: '30%', name: 'Papan Tulis & Mural Motivasi', type: 'Seni Rupa Terapan & DKV', desc: 'Memiliki fungsi praktis sebagai media pembelajaran visual dan estetika dinding.' },
+                    { id: 2, top: '60%', left: '70%', name: 'Kursi & Meja Kayu Ukir', type: 'Seni Kriya / Terapan 3D', desc: 'Furnitur fungsional yang dirancang ergomomis dengan ornamen tekstur kayu.' },
+                    { id: 3, top: '20%', left: '80%', name: 'Poster Pahlawan & Mading', type: 'Seni Rupa Murni / Terapan 2D', desc: 'Media komunikasi visual visualisasi sejarah dan seni grafis.' }
+                ]
+            },
+            kamar: {
+                label: "Eksplorasi Kamar Tidur",
+                hotspots: [
+                    { id: 1, top: '30%', left: '25%', name: 'Lukisan Dinding Canvas', type: 'Seni Rupa Murni 2D', desc: 'Diciptakan murni untuk ekspresi estetis dan memberikan suasana tenang bagi penghuni.' },
+                    { id: 2, top: '70%', left: '50%', name: 'Karpet Motif Batik', type: 'Seni Kriya Tekstil / Terapan', desc: 'Unsur kriya tekstil tradisional yang berfungsi menghangatkan lantai sekaligus dekorasi.' },
+                    { id: 3, top: '40%', left: '85%', name: 'Lampu Hias Keramik', type: 'Seni Keramik Terapan 3D', desc: 'Penggabungan fungsi pencahayaan dan nilai keindahan bentuk kriya ceramic.' }
+                ]
+            },
+            kota: {
+                label: "Eksplorasi Taman Kota",
+                hotspots: [
+                    { id: 1, top: '35%', left: '50%', name: 'Patung Monumen Kota', type: 'Seni Rupa Murni 3D', desc: 'Simbol penghormatan sejarah dan estetika tata kota tanpa fungsi pakai praktis.' },
+                    { id: 2, top: '65%', left: '20%', name: 'Bangku Taman Besi Tempa', type: 'Seni Rupa Terapan / Desain Produk', desc: 'Fasilitas umum duduk yang dirancang artistik menggunakan teknik kriya logam.' },
+                    { id: 3, top: '20%', left: '75%', name: 'Mural Grafiti Estetis', type: 'Seni Rupa Murni 2D / Street Art', desc: 'Ekspresi kebebasan artistik seniman di ruang publik.' }
+                ]
+            }
+        };
+
+        function switchRoom(roomKey) {
+            const buttons = document.querySelectorAll('.room-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-brand-600', 'text-white');
+                btn.classList.add('bg-white', 'text-slate-600');
+            });
+
+            document.getElementById(`room-${roomKey}`).classList.add('bg-brand-600', 'text-white');
+            document.getElementById(`room-${roomKey}`).classList.remove('bg-white', 'text-slate-600');
+
+            document.getElementById('room-bg-label').innerText = roomData[roomKey].label;
+            renderHotspots(roomKey);
+        }
+
+        function renderHotspots(roomKey) {
+            const container = document.getElementById('hotspots-container');
+            container.innerHTML = '';
+
+            roomData[roomKey].hotspots.forEach(hs => {
+                const btn = document.createElement('button');
+                btn.className = 'absolute w-8 h-8 rounded-full bg-brand-500 text-white font-bold text-xs shadow-lg border-2 border-white animate-bounce hover:scale-125 transition flex items-center justify-center';
+                btn.style.top = hs.top;
+                btn.style.left = hs.left;
+                btn.innerHTML = `<i class="fa-solid fa-magnifying-glass"></i>`;
+                btn.onclick = () => showHotspotDetail(hs);
+                container.appendChild(btn);
+            });
+        }
+
+        function showHotspotDetail(hs) {
+            const infoBox = document.getElementById('detector-info');
+            infoBox.innerHTML = `
+                <div class="inline-block px-2.5 py-1 bg-brand-100 text-brand-700 text-[10px] font-bold rounded-md mb-2">
+                    Hasil Deteksi Objek
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-1">${hs.name}</h3>
+                <span class="inline-block text-xs font-semibold text-art-rose bg-rose-50 px-2 py-0.5 rounded mb-3">${hs.type}</span>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    ${hs.desc}
+                </p>
+            `;
+        }
+
+        // --- QUIZ GAME LOGIC (SECTION 3) ---
+        const quizQuestions = [
+            {
+                q: "Sebuah vas bunga keramik buatan pengrajin lokal digunakan untuk memperindah meja tamu sekaligus menampung air. Vas tersebut merupakan contoh...",
+                options: ["Seni Rupa Murni", "Seni Rupa Terapan", "Seni Monumen", "Seni Tanpa Fungsi"],
+                correct: 1,
+                category: "Klasifikasi Seni",
+                explain: "Tepat! Vas bunga memiliki nilai fungsional pakai (terapan) sekaligus nilai estetika keindahan."
+            },
+            {
+                q: "Seni rupa diciptakan manusia untuk memenuhi berbagai eksistensi kebutuhan. Lukisan ekspresi jiwa karya seniman di galeri utamanya memenuhi kebutuhan...",
+                options: ["Fisik Praktis", "Ekonomi Komersial", "Emosional & Kepuasan Batin", "Teknologi Visual"],
+                correct: 2,
+                category: "Eksistensi Seni",
+                explain: "Benar! Lukisan murni berfungsi sebagai sarana ekspresi emosional dan batiniah manusia."
+            },
+            {
+                q: "Unsur fisik seni rupa paling dasar yang menjadi awal terbentuknya garis dan bidang adalah...",
+                options: ["Warna", "Tekstur", "Titik", "Ruang"],
+                correct: 2,
+                category: "Unsur Visual",
+                explain: "Tepat! Titik adalah elemen seni rupa paling fundamental dari mana garis dan bentuk berasal."
+            },
+            {
+                q: "Mana di antara pilihan berikut yang tergolong dalam karya Seni Rupa Murni (Fine Art) 3 Dimensi?",
+                options: ["Desain Poster Komersial", "Patung Monumen Pahlawan", "Kursi Kayu Ukir", "Batik Tulis Kain"],
+                correct: 1,
+                category: "Bentuk Karya",
+                explain: "Patung monumen pahlawan dibuat dengan tujuan apresiasi estetis dan simbolis (murni) dalam wujud 3D."
+            },
+            {
+                q: "Mengapa desain antarmuka (UI) aplikasi di ponsel cerdas Anda dapat dikategorikan sebagai seni rupa di sekitar kita?",
+                options: ["Karena menggunakan warna dan tata letak garis estetis untuk kemudahan pengguna", "Karena harganya mahal", "Karena dibuat menggunakan cat minyak", "Karena tidak memiliki fungsi pakai"],
+                correct: 0,
+                category: "Kontekstual Sekitar",
+                explain: "Hebat! Desain aplikasi adalah cabang Seni Rupa Terapan (Desain Komunikasi Visual) modern."
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+
+        function loadQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-step').innerText = `Soal ${currentQuizIndex + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-category').innerText = q.category;
+            document.getElementById('quiz-question').innerText = q.q;
+            document.getElementById('quiz-progress').style.width = `${((currentQuizIndex + 1) / quizQuestions.length) * 100}%`;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('btn-next-quiz').classList.add('hidden');
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-3.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:border-brand-500 transition flex items-center justify-between';
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-slate-300"></i>`;
+                btn.onclick = () => selectQuizAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectQuizAnswer(selectedIndex, btnEl) {
+            const q = quizQuestions[currentQuizIndex];
+            const allBtns = document.querySelectorAll('#quiz-options button');
+            allBtns.forEach(b => b.disabled = true);
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            if (selectedIndex === q.correct) {
+                quizScore += 20;
+                document.getElementById('quiz-score-display').innerText = quizScore;
+                btnEl.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                feedback.className = 'mt-6 p-4 rounded-xl text-xs font-medium leading-relaxed bg-emerald-50 text-emerald-800 border border-emerald-200';
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-1.5"></i> ${q.explain}`;
+            } else {
+                btnEl.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-800');
+                allBtns[q.correct].classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+                feedback.className = 'mt-6 p-4 rounded-xl text-xs font-medium leading-relaxed bg-rose-50 text-rose-800 border border-rose-200';
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 mr-1.5"></i> Jawaban belum tepat. ${q.explain}`;
+            }
+
+            document.getElementById('btn-next-quiz').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-body').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            document.getElementById('final-score-text').innerText = `${quizScore} / 100`;
+
+            const evalText = document.getElementById('final-eval-text');
+            if (quizScore >= 80) {
+                evalText.innerText = "Luar biasa! Pemahamanmu terhadap eksistensi seni rupa sangat mendalam.";
+                evalText.className = "text-xs font-semibold text-emerald-600";
+            } else {
+                evalText.innerText = "Bagus! Pelajari kembali bagian eksplorasi konsep untuk memperkuat pemahamanmu.";
+                evalText.className = "text-xs font-semibold text-amber-600";
+            }
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-score-display').innerText = '0';
+            document.getElementById('quiz-body').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            loadQuizQuestion();
+        }
+
+        // --- REFLECTION JOURNAL (SECTION 4) ---
+        function handleReflectionSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('ref-name').value;
+            const q1 = document.getElementById('ref-q1').value;
+            const q2 = document.getElementById('ref-q2').value;
+            const mood = document.querySelector('input[name="mood"]:checked').value;
+
+            const list = document.getElementById('journal-entries-list');
+            if (list.querySelector('p')) {
+                list.innerHTML = '';
+            }
+
+            const card = document.createElement('div');
+            card.className = 'p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5';
+            card.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-slate-800">${name}</span>
+                    <span class="text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full font-semibold">${mood}</span>
+                </div>
+                <p class="text-slate-600"><strong>Kesadaran Objek:</strong> "${q1}"</p>
+                <p class="text-slate-600"><strong>Eksistensi Seni:</strong> "${q2}"</p>
+            `;
+
+            list.prepend(card);
+            document.getElementById('form-refleksi').reset();
+            alert('Jurnal Refleksi kamu berhasil terkirim!');
+        }
+
+        // Initialize default view on DOM Load
+        window.onload = function() {
+            navigateTo('hero');
+            switchRoom('kelas');
+            loadQuizQuestion();
+        };
+    </script>
+</body>
+</html>
